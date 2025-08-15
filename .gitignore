@@ -1,0 +1,32 @@
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+nodemon.json
+
+# Log files
+logs
+*.log
+logs/*
+
+# Environment variables
+.env
+nodemon.json
+
+# Build files
+dist/
+build/
+
+# IDE / Editor files
+.vscode/
+.idea/
+.DS_Store
+
+# Optional: Ignore uploads or other generated content
+uploads/
+tmp/
+public/uploads/
+
+# IDE
+.cursorignore
