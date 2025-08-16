@@ -6,38 +6,28 @@ const mongoose = require("mongoose");
 const helmet = require("helmet");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const morgan = require("morgan");
+const compression = require("compression");
 
 const authRoutes = require("./routes/auth");
 const exerciseRoutes = require("./routes/exercise");
 const trainingRoutes = require("./routes/training");
 
-const origin = "http://localhost:3000";
-
 const app = express();
 
+app.use(morgan("combined"));
+app.use(compression());
 app.use(cookieParser());
 
 const corsOptions = {
-  origin: origin, // Tutaj podajemy adres frontend (może być inny w produkcji)
-  credentials: true, // Zezwalamy na przekazywanie cookies
+  origin: process.env.CLIENT_ORIGIN || "http://localhost:3000",
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
 app.use(helmet());
 
 app.use(bodyParser.json());
-
-// By uniknąć problemów z CORS
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", origin);
-  res.header("Access-Control-Allow-Credentials", true);
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, PATCH, DELETE",
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
-});
 
 app.use("/auth", authRoutes);
 app.use("/exercise", exerciseRoutes);
@@ -49,7 +39,10 @@ app.use((error, req, res, next) => {
   const statusCode = error.statusCode || 500;
   const message = error.message || "Wystąpił błąd serwera.";
 
-  res.clearCookie("token");
+  if (statusCode === 401) {
+    res.clearCookie("token");
+  }
+
   res.status(statusCode).json({
     message: message,
     data: error.data,
