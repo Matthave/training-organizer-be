@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const exerciseSchema = require("./exercise").schema;
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 const userSchema = new Schema({
   email: {
@@ -16,6 +17,7 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  exercises: [exerciseSchema],
 });
 
 module.exports = mongoose.model("User", userSchema);

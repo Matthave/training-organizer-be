@@ -8,6 +8,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 const authRoutes = require("./routes/auth");
+const exerciseRoutes = require("./routes/exercise");
 
 const origin = "http://localhost:3000";
 
@@ -38,6 +39,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/auth", authRoutes);
+app.use("/exercise", exerciseRoutes);
 
 app.use((error, req, res, next) => {
   // eslint-disable-next-line no-console
