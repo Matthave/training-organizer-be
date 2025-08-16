@@ -19,8 +19,12 @@ app.use(morgan("combined"));
 app.use(compression());
 app.use(cookieParser());
 
+const allowedOrigins = (
+  process.env.CLIENT_ORIGIN || "http://localhost:3000"
+).split(",");
+
 const corsOptions = {
-  origin: process.env.CLIENT_ORIGIN || "http://localhost:3000",
+  origin: allowedOrigins,
   credentials: true,
 };
 
