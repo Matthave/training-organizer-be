@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser");
 
 const authRoutes = require("./routes/auth");
 const exerciseRoutes = require("./routes/exercise");
+const trainingRoutes = require("./routes/training");
 
 const origin = "http://localhost:3000";
 
@@ -40,6 +41,7 @@ app.use((req, res, next) => {
 
 app.use("/auth", authRoutes);
 app.use("/exercise", exerciseRoutes);
+app.use("/training", trainingRoutes);
 
 app.use((error, req, res, next) => {
   // eslint-disable-next-line no-console
